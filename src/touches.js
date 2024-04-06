@@ -15,6 +15,9 @@ export class Touches {
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.handleTouchEnd = this.handleTouchEnd.bind(this);
 
+        this.status = ''
+        this.statusShower = document.getElementById('controls')
+
         // Добавление слушателей событий
         this.initListeners();
     }
@@ -64,8 +67,10 @@ export class Touches {
         if (Math.abs(xDiff) < this.tapThreshold && Math.abs(yDiff) < this.tapThreshold) {
             if (touchDuration < this.longPressThreshold) {
                 console.log('Tap');
+                this.changeStatus('Tap')
             } else {
                 console.log('Long Press');
+                this.changeStatus('Long Press')
             }
         } else {
             this.detectSwipe();
@@ -74,8 +79,10 @@ export class Touches {
         if (this.startDistance > 0 && this.endDistance > 0) {
             if (this.endDistance > this.startDistance) {
                 console.log('Pinch Out');
+                this.changeStatus('Pinch Out')
             } else {
                 console.log('Pinch In');
+                this.changeStatus('Pinch In')
             }
         }
 
@@ -92,14 +99,18 @@ export class Touches {
         if (Math.abs(xDiff) > Math.abs(yDiff)) { // Свайп по горизонтали
             if (xDiff > threshold) {
                 console.log('Swipe Right');
+                this.changeStatus('Swipe Right')
             } else if (xDiff < -threshold) {
                 console.log('Swipe Left');
+                this.changeStatus('Swipe Left')
             }
         } else { // Свайп по вертикали
             if (yDiff > threshold) {
                 console.log('Swipe Down');
+                this.changeStatus('Swipe Down')
             } else if (yDiff < -threshold) {
                 console.log('Swipe Up');
+                this.changeStatus('Swipe Up')
             }
         }
     }
@@ -108,6 +119,11 @@ export class Touches {
         const xDiff = touch2.clientX - touch1.clientX;
         const yDiff = touch2.clientY - touch1.clientY;
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    }
+
+    changeStatus(status) {
+        this.status = status
+        this.statusShower.innerText = status
     }
 
 
